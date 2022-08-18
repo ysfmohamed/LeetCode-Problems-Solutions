@@ -23,4 +23,28 @@ int rob(int[] nums)
     }
 
     return dp[nums.Length];
+
+    // Bruteforce
+    /*int maxValue = 0;
+    for(int i = 0; i < nums.Length; i++)
+    {
+        maxValue = Math.Max(maxValue, robHelper(i, nums));
+    }
+
+    return maxValue;*/
+}
+
+int robHelper(int index, int[] nums)
+{
+    int maxValue = 0;
+
+    if (index >= nums.Length)
+        return 0;
+
+    for(int i = index; i < nums.Length; i++)
+    {
+        maxValue = Math.Max(maxValue, robHelper(i + 2, nums) + nums[i]);
+    }
+
+    return maxValue;
 }
