@@ -1,8 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <unordered_map>
-#include <map>
+#include <queue>
 using namespace std;
 
 /*
@@ -15,6 +14,8 @@ using namespace std;
 * Time Complexity: O(nm)
 * Space Complexity: O(nm)
 */
+
+// DFS solution
 bool dfs(vector<vector<char>>& grid, int i, int j)
 {
 	if (i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size() || grid[i][j] == '0')
@@ -29,16 +30,69 @@ bool dfs(vector<vector<char>>& grid, int i, int j)
 	return true;
 }
 
+// BFS solution
+void bfs(vector<vector<char>>& grid, int i, int j)
+{
+	int rowBound = grid.size(), colBound = grid[0].size();
+	pair<int, int> current;
+
+	grid[i][j] = '0';
+	queue<pair<int, int>> queue;
+	queue.push({i, j});
+
+	while (!queue.empty())
+	{
+		current = queue.front();
+		queue.pop();
+
+		// Now we must explore its neighbours (up - left - down - right)
+		int r = current.first, c = current.second;
+		if (r - 1 >= 0 && r - 1 < rowBound && c >= 0 && c < colBound && grid[r - 1][c] == '1')
+		{
+			grid[r - 1][c] = '0';
+			queue.push({r-1, c});
+		}
+		if (r + 1 >= 0 && r + 1 < rowBound && c >= 0 && c < colBound && grid[r + 1][c] == '1')
+		{
+			grid[r + 1][c] = '0';
+			queue.push({ r + 1, c });
+		}
+		if (r >= 0 && r < rowBound && c - 1 >= 0 && c - 1 < colBound && grid[r][c - 1] == '1')
+		{
+			grid[r][c - 1] = '0';
+			queue.push({ r, c - 1});
+		}
+		if (r >= 0 && r < rowBound && c + 1 >= 0 && c + 1 < colBound && grid[r][c + 1] == '1')
+		{
+			grid[r][c + 1] = '0';
+			queue.push({ r, c + 1 });
+		}
+	}
+}
+
 int numIslands(vector<vector<char>> grid)
 {
 	int count = 0;
-
+	/*
 	for (int i = 0; i < grid.size(); i++)
 	{
 		for (int j = 0; j < grid[0].size(); j++)
 		{
 			if (dfs(grid, i, j))
 				count++;
+		}
+	}
+	*/
+
+	for (int i = 0; i < grid.size(); i++)
+	{
+		for (int j = 0; j < grid[0].size(); j++)
+		{
+			if (grid[i][j] == '1')
+			{
+				count++;
+				bfs(grid, i, j);
+			}
 		}
 	}
 
