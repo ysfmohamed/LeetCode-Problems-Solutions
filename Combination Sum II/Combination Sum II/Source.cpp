@@ -2,6 +2,10 @@
 #include<algorithm>
 #include<vector>
 using namespace std;
+/*
+* Problem Number: #40
+* Problem Difficulty: Medium
+*/
 
 /*
 * Bruteforce solution:
