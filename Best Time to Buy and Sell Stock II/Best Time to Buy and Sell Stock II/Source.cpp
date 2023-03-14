@@ -71,6 +71,39 @@ int maxProfitHelper(int i, bool buy, vector<int> prices, vector<vector<int>>& dp
 }
 
 /*
+* Tabulation Solution
+* n = prices.size()
+* Time Complexity: O(2n) = O(n)
+* Space Complexity: O(2n) = O(n)
+*/
+/*
+int maxProfitHelperG(vector<int> prices)
+{
+	vector<vector<int>> dp(prices.size() + 1, vector<int>(2));
+
+	dp[0][0] = 0; dp[0][1] = 0;
+	dp[1][0] = 0; dp[1][1] = -prices[0];
+
+	for (int i = 2; i < dp.size(); i++)
+	{
+		for (int buy = 0; buy < 2; buy++)
+		{
+			if (buy)
+			{
+				dp[i][buy] = max(-prices[i - 1] + dp[i - 1][0], dp[i - 1][1]);
+			}
+			else
+			{
+				dp[i][buy] = max(prices[i - 1] + dp[i - 1][1], dp[i - 1][0]);
+			}
+		}
+	}
+
+	return max(dp[prices.size()][0], dp[prices.size()][1]);
+}
+*/
+
+/*
 * Greedy Solution
 * Time Complexity: O(n)
 * Space Complexity: O(1)
@@ -102,7 +135,6 @@ int maxProfitHelper(vector<int> prices)
 int maxProfit(vector<int> prices)
 {
 	vector<vector<int>> dp(prices.size(), vector<int>(2, -1));
-
 	return maxProfitHelper(0, true, prices, dp);
 }
 
