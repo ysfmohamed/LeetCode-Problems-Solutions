@@ -75,6 +75,63 @@ bool isInterleaveHelper(int i, int j, int k, string s1, string s2, string s3, ve
 		return dp[i][j] = false;
 }
 
+/*
+* Tabulation Solution
+* Time Complexity: O(nm)
+* Space Complexity: O(nm)
+*/
+bool isInterleaveHelper(string s1, string s2, string s3)
+{
+	if (s1.size() + s2.size() != s3.size())
+		return false;
+
+	vector<vector<bool>> dp(s1.size() + 1, vector<bool>(s2.size() + 1, false));
+
+	/*
+	* this means:
+	* s1 = ""
+	* s2 = ""
+	* s3 = ""
+	*/
+	dp[0][0] = true;
+
+	/*
+	* this means:
+	* s1 = "abcd"
+	* s2 = ""
+	* s3 = "aabc"
+	* tab = [1, 1, 0, 0, 0]
+	*/
+	for (int i = 1; i < s1.size() + 1; i++)
+	{
+		if (s1[i - 1] == s3[i - 1] && dp[i - 1][0])
+			dp[i][0] = true;
+	}
+
+	/*
+	* same as previous
+	*/
+	for (int i = 1; i < s2.size() + 1; i++)
+	{
+		if (s2[i - 1] == s3[i - 1] && dp[0][i - 1])
+			dp[0][i] = true;
+	}
+
+	for (int i = 1; i < s1.size() + 1; i++)
+	{
+		for (int j = 1; j < s2.size() + 1; j++)
+		{
+			if (s3[i + j - 1] == s1[i - 1] && dp[i - 1][j])
+				dp[i][j] = true;
+
+			if (s3[i + j - 1] == s2[j - 1] && dp[i][j - 1])
+				dp[i][j] = true;
+		}
+	}
+
+	return dp[s1.size()][s2.size()];
+}
+
 bool isInterleave(string s1, string s2, string s3)
 {
 	if (s1.size() + s2.size() != s3.size())
@@ -89,6 +146,9 @@ int main()
 {
 	cout << isInterleave("aabcc", "dbbca", "aadbbcbcac") << endl; // true
 	cout << isInterleave("aabcc", "dbbca", "aadbbbaccc") << endl; // false
+	cout << isInterleave("a", "b", "ab") << endl; // true
+	cout << isInterleave("", "", "") << endl; // true
+	cout << isInterleave("", "b", "b") << endl; // true
 
 	return 0;
 }
