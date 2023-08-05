@@ -88,26 +88,3 @@ int main() {
 
 	return 0;
 }
-
-// int maxEnvelopesHelper(int curr, int prev, vector<pair<int, int>> envelopes) {
-//     if(curr >= envelopes.size()) {
-//         return 0;
-//     }
-
-//     // if(curr == envelopes.size() - 1) {
-//     //     return 0;
-//     // }
-
-//     int take = 0;
-//     int dontTake = 0;
-
-//     if(prev == -1 || (
-//        envelopes[prev].first > envelopes[curr].first &&
-//        envelopes[prev].second > envelopes[curr].second)) {
-//            take = maxEnvelopesHelper(curr + 1, curr, envelopes) + 1;
-//     }
-
-//     dontTake = maxEnvelopesHelper(curr + 1, prev, envelopes);
-
-//     return max(take, dontTake);
-// }
