@@ -14,16 +14,16 @@ vector<int> gardenNoAdj(int n, vector<vector<int>> paths) {
 		adj[path[1] - 1].push_back(path[0] - 1);
 	}
 
-	vector<int> res(n);
+	vector<int> res(n); // represents the planted flower type for each garden
 
 	for (int i = 0; i < n; i++) {
-		int availableFlowers[5] = {};
+		int usedFlowers[5] = {};
 		for (auto neighbourNode : adj[i]) {
-			availableFlowers[res[neighbourNode]] = 1;
+			usedFlowers[res[neighbourNode]] = 1;
 		}
 
 		for (int flower = 4; flower > 0; flower--) {
-			if (availableFlowers[flower] == 0) {
+			if (usedFlowers[flower] == 0) {
 				res[i] = flower;
 			}
 		}
